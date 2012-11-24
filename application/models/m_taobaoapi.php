@@ -44,7 +44,7 @@ class M_taobaoapi extends CI_Model{
     	$req->setEndCommissionRate("5000");
     	$req->setMallItem("true");
     	$req->setPageNo(1);
-    	$req->setPageSize(80);
+    	$req->setPageSize(20);
     	$req->setOuterCode("abc");
     	//执行API请求并打印结果
     	$resp = $c->execute($req);

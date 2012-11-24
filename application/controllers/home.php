@@ -97,7 +97,10 @@ class Home extends CI_Controller {
             $cid = $_GET['cat_select'];
         }
 
+
+        $data['ad_resp'] = $this->M_item->searchItem($keyword);
         $data['resp'] = $this->M_taobaoapi->searchItem($keyword, $cid);
+
         $data['keyword'] =  $_GET['keyword'];
         
 		//站点信息

@@ -23,11 +23,16 @@
 
 <?php
 
-//打印XML中的条目信息
+//打印数据库中的广告条目信息
+puPrintAdItem($ad_resp);
+
+echo '自然搜索条目：';
+//打印阿里妈妈搜索结果
 puPrintItem($resp);
 
+//打印搜索条目列表
 function puPrintItem($resp){
-	echo "<ul id='search-list'>";
+	echo "<ul id='search-list' class='item-list'>";
 		if($resp->total_results == 0){
 			echo '没有找到条目，请修改关键词或者类别。';
 		} else{
@@ -44,21 +49,30 @@ function puPrintItem($resp){
 		}
 	echo "</ul>";
 }
+
+//打印广告列表
+function puPrintAdItem($ad_resp){
+	
+		if($ad_resp->num_rows() == 0){
+			echo '没有找到广告条目。';
+		} else{
+			echo '广告条目：';
+			echo "<ul id='ad-list' class='item-list'>";
+			foreach($ad_resp->result_array() as $row){
+			?>
+				<li>
+					<a href="<?php echo site_url('home/redirect/'.$row['id']); ?>" title="<?php echo $row['title'];?>">
+					<img src="<?php echo $row['img_url']?>" alt=""/>
+					</a>
+					
+				</li>
+			<?php
+			}
+			echo "</ul>";
+		}
+}
 ?>
 
-<div id="pop-pictures" class="modal hide">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">×</button>
-              <h3></h3>
-            </div>
-            <div class="modal-body">
-
-            </div>
-            <div class="modal-footer">
-             <a href="" class="btn btn-primary"
-		              id="btn-publish">发布条目</a>
-            </div>
-          </div>
 
 
 </body>

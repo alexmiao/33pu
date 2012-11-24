@@ -107,38 +107,7 @@ class M_item extends CI_Model{
 
 	}
 
-    /**
-     * 保存缩略图图片到本地
-     *
-     * @param string 图片原url
-     * @return string 图片保存名
-     */
-	function save_image($image_source_url,$image_new_name){
 
-        //包含gd库，处理图片
-		include "fn_gd.php";
-
-        if(preg_match("/jpg/i",$image_source_url)){
-            $src_im = imagecreatefromjpeg($image_source_url);
-            if(!$src_im){
-                throw new Exception("载入jpeg图片错误！");
-            }
-            return resizeImage($src_im,230,230,'images/',$image_new_name,'.jpg');
-        }else if(preg_match("/png/i",$image_source_url)){
-            $src_im = imagecreatefrompng($image_source_url);
-            if(!$src_im){
-                throw new Exception("载入png图片错误！");
-            }
-            return resizeImage($src_im,230,230,'images/',$image_new_name,'.png');
-        }else if(preg_match("/gif/i",$image_source_url)){
-            $src_im = imagecreatefromgif($image_source_url);
-            if(!$src_im){
-                throw new Exception("载入gif图片错误！");
-            }
-            return resizeImage($src_im,230,230,'images/',$image_new_name,'.gif');
-        }
-        throw new Exception("无法识别的图片类型！");
-	}
 
     /**
      * 根据id查找条目
@@ -152,6 +121,19 @@ class M_item extends CI_Model{
             );
         $query = $this->db->get_where('item', $data);
         $query;
+    }
+
+	/**
+     * 根据关键词搜索条目
+     *
+     * @param string $keyword 搜索关键词
+     * @return 
+     */
+    function searchItem($keyword){
+
+		$sql = "SELECT * FROM item WHERE title LIKE '%".$keyword."%'";
+		$query = $this->db->query($sql);
+		return $query;
     }
 
     /**
